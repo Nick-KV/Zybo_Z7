@@ -19,6 +19,7 @@ set _xil_proj_name_	"test_project_zybo_z7"
 
 # top instanse name
 set _inst_top_name_	"Zybo_Z7_top"
+set _sw_top_name_	"zybo_test"
 
 # part number
 set _part_number_	"xc7z020clg400-1"
