@@ -1,30 +1,27 @@
 /*
 --------------------------------------------------------------------------------------------------------
-	Module   : Arty_Z7_test_top
+	Module   : Zybo_Z7_top
 	Type     : synthesizable, fpga top
 	Standard : SystemVerilog
 	Function : example for Arty Z7 devboard
 --------------------------------------------------------------------------------------------------------
 */
 
-module Arty_Z7_test_top #(
-		parameter device_config  = "orange") // set to "orange" - for first config and "cyan" - for second
-	(
+module Zybo_Z7_top (
 		// Clock definition
 		input logic			sys_clk_125,	// input clock 125 MHz
 		// Switches
 		input logic [3:0]	sw,
 		input logic [3:0]	btn,
 		// RGB leds
-		output logic		led0_r,
-		output logic		led0_g,
-		output logic		led0_b,
-		output logic		led1_r,
-		output logic		led1_g,
-		output logic		led1_b,
+		output logic		led5_r,
+		output logic		led5_g,
+		output logic		led5_b,
+		output logic		led6_r,
+		output logic		led6_g,
+		output logic		led6_b,
 		// 4 green leds
 		output [3:0]		led);
-
 
 	alias LD2 = led[0];
 	alias LD3 = led[1];
@@ -44,25 +41,26 @@ module Arty_Z7_test_top #(
 		.clk_out1           (clk_60),
 		.clk_out2           (clk_100),
 		// Status and control signals
-		.reset              (btn[0]),
+		.reset              (sw[3]),
 		.locked             (clk_locked),
 		// Clock in ports
 		.clk_in1            (sys_clk_125)
 	);
 
-	// Instantiation of device
-	generate
-		if (device_config == "orange") begin
-			assign {led0_r, led0_g, led0_b} = {led_100_pcent, led_30_pcent & sw[0], led_0_pcent & sw[1]};
-			assign {led1_r, led1_g, led1_b} = {led_0_pcent, led_100_pcent & sw[0], led_100_pcent & sw[1]};
-		end
-		else if (device_config == "cyan") begin
-			assign {led1_r, led1_g, led1_b} = {led_0_pcent, led_100_pcent, led_100_pcent};
-		end
-		else begin
-			assign {led0_r, led0_g, led0_b} = {led_100_pcent, led_0_pcent, led_100_pcent};
-		end
-	endgenerate
+	// General logic for device
+	assign {led5_r, led5_g, led5_b} =
+		(btn[0] == 1 ?	{led_100_pcent, led_30_pcent & sw[0], led_0_pcent} :
+		(btn[1] == 1 ?	{led_100_pcent, led_0_pcent, led_100_pcent} :
+		(btn[2] == 1 ?	{led_60_pcent, led_30_pcent, led_0_pcent & sw[1]} :
+		(btn[3] == 1 ?	{led_60_pcent & sw[0], led_30_pcent, led_0_pcent & sw[1]} :
+							{led_100_pcent, led_0_pcent, led_0_pcent}))));
+
+	assign {led6_r, led6_g, led6_b} =
+		(btn[0] == 1 ?	{led_0_pcent, led_100_pcent & sw[0], led_100_pcent}:
+		(btn[1] == 1 ?	{led_0_pcent, led_60_pcent, led_100_pcent}	:
+		(btn[2] == 1 ?	{led_100_pcent, led_100_pcent, led_0_pcent}	:
+		(btn[3] == 1 ?	{led_60_pcent, led_100_pcent, led_60_pcent & sw[1]}	:
+							{led_0_pcent, led_0_pcent, led_100_pcent}))));
 
 	//---------------------------------------------------------------------------------------------------------------------------
 	// General purpouse
@@ -82,7 +80,7 @@ module Arty_Z7_test_top #(
 	assign led_0_pcent = 1'b0;
 
 	assign LD2 = btn[0];
-	assign LD3 = sw[0];
+	assign LD3 = sw[2];
 	assign LD4 = btn[2];
 	assign LD5 = !btn[3];
 

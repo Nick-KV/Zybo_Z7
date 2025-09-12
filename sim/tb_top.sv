@@ -12,15 +12,15 @@ module tb_test_top ();
 	localparam c_data_len = (6 * 8);
 
 	logic 			i_clk;
-	logic [1 : 0]	sw = '1;
-	logic [3 : 0]	btn = '0;
+	logic [1:0]		sw = '1;
+	logic [3:0]		btn = '0;
 	logic 			led_1_r;
 	logic 			led_1_g;
 	logic 			led_1_b;
 	logic 			led_2_r;
 	logic 			led_2_g;
 	logic 			led_2_b;
-	logic [3 : 0]	led;
+	logic [3:0]		led;
 	logic [19:0]	IO;
 	logic [7:0]		ja;
 	logic [7:0]		jb;
@@ -31,14 +31,14 @@ module tb_test_top ();
 
 	const logic [c_data_len - 1 : 0] r_write_word = 48'hFF_FF_FF_FF_FF_00;
 
+	Zybo_Z7_top inst_test_top (
+			.sys_clk_100       (i_clk),
+			.*);
+
 	initial begin
 		i_clk = '0;
 		forever #4 i_clk = ~i_clk;
 	end
-
-	Arty_Z7_test_top inst_test_top (
-			.sys_clk_100       (i_clk),
-			.*);
 
 	always_ff @(posedge `CLK_60)
 		if (!ck_rstn) begin

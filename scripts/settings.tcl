@@ -15,13 +15,13 @@ foreach scr_file [glob -type f -nocomplain "$scripts_dir/common/*.tcl"] {
 }
 
 # project name
-set _xil_proj_name_	"test_project_arty_z7"
+set _xil_proj_name_	"test_project_zybo_z7"
 
 # top instanse name
-set _inst_top_name_	"Arty_Z7_test_top"
+set _inst_top_name_	"Zybo_Z7_top"
 
 # part number
-set _part_number_	"xc7z010clg400-1"
+set _part_number_	"xc7z020clg400-1"
 
 # sources folders to scan
 set _src_dir_	"$repository_dir/sources"
