@@ -362,17 +362,18 @@ proc create_root_design { parentCell } {
 create_root_design ""
 
 make_wrapper -files [get_files $repository_dir/project/${_xil_proj_name_}.srcs/sources_1/bd/$_sw_top_name_/${_sw_top_name_}.bd] -top
-add_files -norecurse $repository_dir/project/test_pro${_xil_proj_name_}ect_zybo_z7.gen/sources_1/bd/$_sw_top_name_/hdl/${_sw_top_name_}_wrapper.v
+add_files -norecurse $repository_dir/project/${_xil_proj_name_}.gen/sources_1/bd/$_sw_top_name_/hdl/${_sw_top_name_}_wrapper.v
 
 set_property top ${_sw_top_name_}_wrapper [current_fileset]
 update_compile_order -fileset sources_1
+
 
 ##################################################################
 # SYNTHESIS AND OTHER
 ##################################################################
 
-reset_run synth_1
-reset_run impl_1
-launch_runs impl_1 -to_step write_bitstream -jobs 4
+# reset_run synth_1
+# reset_run impl_1
+# launch_runs impl_1 -to_step write_bitstream -jobs 4
 
-write_hw_platform -fixed -include_bit -force -file $repository_dir/project/${_sw_top_name_}_wrapper.xsa
+# write_hw_platform -fixed -include_bit -force -file $repository_dir/project/${_sw_top_name_}_wrapper.xsa

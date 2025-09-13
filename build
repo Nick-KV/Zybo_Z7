@@ -24,7 +24,6 @@ if ( $#argv ) then
 		case "-sw":
 		case "-swftware":
 			set compile_sw = 1
-			shift
 			breaksw
 		default:
 			echo "Argument $argv[1] is not supported"
